@@ -23,7 +23,7 @@ namespace FiorellaFrontToBack.Controllers
             var sliderImages = _dbContext.SliderImages.ToList();
             var slider = _dbContext.Sliders.SingleOrDefault();
             var categories = _dbContext.Categories.ToList();
-            var products = _dbContext.Products.Include(x=> x.Category).ToList();
+            var products = _dbContext.Products.Include(x=> x.Category).Take(4).ToList();
             var aboutImage = _dbContext.AboutImages.SingleOrDefault();
             var aboutText = _dbContext.AboutTexts.SingleOrDefault();
             var expertContent = _dbContext.ExpertContents.SingleOrDefault();

@@ -140,3 +140,8 @@ C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\ref
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\FiorellaFrontToBack.pdb
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\FiorellaFrontToBack.genruntimeconfig.cache
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Products\Index.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\_ProductPartial.cshtml.g.cs
