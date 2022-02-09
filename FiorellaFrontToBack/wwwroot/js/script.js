@@ -3,17 +3,29 @@ $(document).ready(function () {
     // HEADER
      var skip=4
     $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() <= $(document).height()) {
+        if ($(window).scrolltop() + $(window).height() <= $(document).height()) {
             $.ajax({
                  type: "GET",
                  url: "/Products/Load?skip=" +skip,
                  success: function (res) {
-                 $("#productRow").append(res);
+                     $("#productRow").append(res);
                  skip += 4
                  }
             });
         }
     });
+    var searchedProduct;
+    $(document).on('keyup', '#input-search', function () {
+        searchedProduct = $(this).val();
+        $("#searchedProduct li").slice(1).remove();
+        $.ajax({
+            type: "GET",
+            url: "/Home/Search?searchedProduct=" + searchedProduct,
+            success: function (res) {
+                $("#searchedProduct").append(res);
+            }
+        });
+    })
 
     $(document).on('click', '#search', function () {
         $(this).next().toggle();

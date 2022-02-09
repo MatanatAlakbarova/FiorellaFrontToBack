@@ -145,3 +145,7 @@ C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Mic
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\_ProductPartial.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Footer\Default.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Header\Default.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\Components\Product\Default.cshtml.g.cs
+C:\Users\Pc\Desktop\FiorellaFrontToBack\FiorellaFrontToBack\obj\Debug\net5.0\Razor\Views\Shared\_SearchedPartial.cshtml.g.cs

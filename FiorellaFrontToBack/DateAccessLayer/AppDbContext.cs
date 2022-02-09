@@ -25,5 +25,6 @@ namespace FiorellaFrontToBack.DateAccessLayer
         public DbSet<BlogCard> BlogCards { get; set; }
         public DbSet<SayCarousel> SayCarousels { get; set; }
         public DbSet <InstagramImage> InstagramImages { get; set; }
+        public DbSet<Bio> Bios { get; set; }
     }
 }

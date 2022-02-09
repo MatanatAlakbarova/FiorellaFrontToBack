@@ -23,7 +23,7 @@ namespace FiorellaFrontToBack.Controllers
             var sliderImages = _dbContext.SliderImages.ToList();
             var slider = _dbContext.Sliders.SingleOrDefault();
             var categories = _dbContext.Categories.ToList();
-            var products = _dbContext.Products.Include(x=> x.Category).Take(4).ToList();
+           // var products = _dbContext.Products.Include(x=> x.Category).Take(4).ToList();
             var aboutImage = _dbContext.AboutImages.SingleOrDefault();
             var aboutText = _dbContext.AboutTexts.SingleOrDefault();
             var expertContent = _dbContext.ExpertContents.SingleOrDefault();
@@ -39,7 +39,7 @@ namespace FiorellaFrontToBack.Controllers
                Slider=slider,
                SliderImages=sliderImages,
                Categories=categories,
-               Products=products,
+              // Products=products,
                AboutImage=aboutImage,
                AboutText=aboutText,
                ExpertContent=expertContent,
@@ -51,6 +51,11 @@ namespace FiorellaFrontToBack.Controllers
                InstagramImages=instagramImages
 
             });
+        }
+    public async Task<IActionResult>Search(string searchedProdect)
+        {
+            var products = await _dbContext.Products.Where(x => x.Name.ToLower().Contains(searchedProdect.ToLower())).ToListAsync();
+            return PartialView("SearchedPartial", products);
         }
     }
 }
