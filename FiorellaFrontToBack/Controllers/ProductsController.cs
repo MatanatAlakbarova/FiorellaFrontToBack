@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FiorellaFrontToBack.Controllers
 {
@@ -28,6 +29,17 @@ namespace FiorellaFrontToBack.Controllers
             var products = _dbContext.Products.Include(x => x.Category).Skip(skip).Take(4).ToList();
 
             return PartialView("_ProductPartial", products);
+        }
+        public async Task<IActionResult> Detail(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var product = await _dbContext.Products.SingleOrDefaultAsync(x => x.Id == id);
+            if (product == null)
+                return NotFound();
+
+            return View(product);
         }
     }
 }

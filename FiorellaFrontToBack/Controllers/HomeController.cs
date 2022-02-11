@@ -2,6 +2,7 @@
 using FiorellaFrontToBack.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,10 +53,139 @@ namespace FiorellaFrontToBack.Controllers
 
             });
         }
-    public async Task<IActionResult>Search(string searchedProdect)
+        public async Task<IActionResult> Search(string searchedProduct)
         {
-            var products = await _dbContext.Products.Where(x => x.Name.ToLower().Contains(searchedProdect.ToLower())).ToListAsync();
-            return PartialView("SearchedPartial", products);
+            if (string.IsNullOrEmpty(searchedProduct))
+            {
+                return NoContent();
+            }
+
+            var products = await _dbContext.Products
+                .Where(x => x.Name.ToLower().Contains(searchedProduct.ToLower()))
+                .ToListAsync();
+
+            return PartialView("_SeachedProductPartial", products);
+        }
+
+        public async Task<IActionResult> Basket()
+        {
+            var basket = Request.Cookies["Basket"];
+            if (string.IsNullOrEmpty(basket))
+            {
+                return Content("empty");
+            }
+            var basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            var newBasket = new List<BasketViewModel>();
+            foreach (var basketViewModel in basketViewModels)
+            {
+                var product = await _dbContext.Products.FindAsync(basketViewModel.Id);
+                if (product == null)
+                    continue;
+                newBasket.Add(new BasketViewModel
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Image = product.Image,
+                    Count = basketViewModel.Count,
+                    TotalPrice = basketViewModel.Count * product.Price
+                });
+            }
+            var basketList = JsonConvert.SerializeObject(newBasket);
+            Response.Cookies.Append("basket", basketList);
+            return View(newBasket);
+        }
+        public IActionResult Delete(int? id)
+        {
+            var basket = Request.Cookies["Basket"];
+            if (string.IsNullOrEmpty(basket))
+            {
+                return Content("Empty");
+            }
+            var basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            var isAvailable = basketViewModels.FirstOrDefault(x => x.Id == id);
+            if (isAvailable != null)
+            {
+                basketViewModels.Remove(isAvailable);
+            }
+            var basketList = JsonConvert.SerializeObject(basketViewModels);
+            Response.Cookies.Append("Basket", basketList);
+            return RedirectToAction(nameof(basket));
+        }
+
+        public IActionResult Increment(int? Id)
+        {
+            var basket = Request.Cookies["Basket"];
+            if (string.IsNullOrEmpty(basket))
+            {
+                return Content("empty");
+            }
+            var basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            var isAvailable = basketViewModels.FirstOrDefault(x => x.Id == Id);
+            if (isAvailable != null)
+            {
+                isAvailable.Count++;
+            }
+            var basketList = JsonConvert.SerializeObject(basketViewModels);
+            Response.Cookies.Append("Basket", basketList);
+
+            return RedirectToAction(nameof(basket));
+        }
+        public IActionResult Decrement(int? Id)
+        {
+            var basket = Request.Cookies["Basket"];
+            if (string.IsNullOrEmpty(basket))
+            {
+                return Content("Emptyy");
+            }
+            var basketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            var isAvailable = basketViewModels.FirstOrDefault(x => x.Id == Id);
+            if (isAvailable.Count > 1)
+            {
+                isAvailable.Count--;
+            }
+
+            var basketList = JsonConvert.SerializeObject(basketViewModels);
+            Response.Cookies.Append("Basket", basketList);
+
+            return RedirectToAction(nameof(basket));
+        }
+        public async Task<IActionResult> AddToBasket(int? Id)
+        {
+            if (Id == null)
+                return BadRequest();
+
+            var Product = await _dbContext.Products.FindAsync(Id);
+            if (Product == null)
+                return NotFound();
+
+            List<BasketViewModel> BasketViewModels;
+            var basket = Request.Cookies["basket"];
+            if (string.IsNullOrEmpty(basket))
+            {
+                BasketViewModels = new List<BasketViewModel>();
+            }
+            else
+            {
+                BasketViewModels = JsonConvert.DeserializeObject<List<BasketViewModel>>(basket);
+            }
+            var isAvailableBasketVM = BasketViewModels.FirstOrDefault(x => x.Id == Id);
+            if (isAvailableBasketVM == null)
+            {
+                isAvailableBasketVM = new BasketViewModel
+                {
+                    Id = Product.Id,
+                };
+                BasketViewModels.Add(isAvailableBasketVM);
+            }
+            else
+            {
+                isAvailableBasketVM.Count++;
+            }
+            var Isbasket = JsonConvert.SerializeObject(BasketViewModels);
+            Response.Cookies.Append("basket", Isbasket);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

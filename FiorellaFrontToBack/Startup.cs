@@ -24,13 +24,21 @@ namespace FiorellaFrontToBack
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
+
             var connectionString = _configuration.GetConnectionString("DefaultConnection");
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
             });
-            services.AddMvc().AddNewtonsoftJson(x=> x.SerializerSettings.ReferenceLoopHandling=Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+            services.AddMvc().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -40,6 +48,7 @@ namespace FiorellaFrontToBack
 
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

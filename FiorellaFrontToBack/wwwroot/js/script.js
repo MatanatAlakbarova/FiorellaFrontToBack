@@ -1,31 +1,34 @@
 $(document).ready(function () {
 
     // HEADER
-     var skip=4
+    
+    var skip = 4
     $(window).scroll(function () {
-        if ($(window).scrolltop() + $(window).height() <= $(document).height()) {
+        if ($("#productRow").height() - $(".product-item").height() < $(document).scrollTop()) {
             $.ajax({
-                 type: "GET",
-                 url: "/Products/Load?skip=" +skip,
-                 success: function (res) {
-                     $("#productRow").append(res);
-                 skip += 4
-                 }
+                type: "GET",
+                url: "/Products/Load?skip=" + skip,
+                success: function (res) {
+                   
+                    $("#productRow").append(res);
+                     skip += 4
+                }
             });
         }
     });
     var searchedProduct;
     $(document).on('keyup', '#input-search', function () {
+        $("#searchedProducts li").slice(1).remove();
         searchedProduct = $(this).val();
-        $("#searchedProduct li").slice(1).remove();
         $.ajax({
             type: "GET",
             url: "/Home/Search?searchedProduct=" + searchedProduct,
             success: function (res) {
-                $("#searchedProduct").append(res);
+
+                $("#searchedProducts").append(res);
             }
         });
-    })
+    });
 
     $(document).on('click', '#search', function () {
         $(this).next().toggle();
